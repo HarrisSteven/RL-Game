@@ -14,9 +14,9 @@ class Player1(pygame.sprite.Sprite):
         self.screen_height = screen_height
         self.circles = circles
         self.all_sprites = all_sprites
-        elon = pygame.image.load("elon.PNG")
-        self.jeff_sad = pygame.image.load("jeff_sad.PNG")
-        self.surf = pygame.transform.scale(elon, (25, 25))
+        elon = pygame.image.load("RL-Game/elon.PNG")
+        self.jeff_sad = pygame.image.load("RL-Game/jeff_sad.PNG")
+        self.surf = pygame.transform.scale(elon, (25*4, 25*4))
         self.cooldown = 15
         self.health = 10
         self.rect = self.surf.get_rect()
@@ -33,19 +33,19 @@ class Player1(pygame.sprite.Sprite):
                 res = self.model.predict(np.asarray(features))
                 res = np.argmax(res)
                 if res == 0 and upperY > 0:
-                    self.rect.move_ip(0, -10)
+                    self.rect.move_ip(0, -10*4)
                 if res == 1 and lowerY < self.screen_height:
-                    self.rect.move_ip(0, 10)
+                    self.rect.move_ip(0, 10*4)
                 if res == 2 and lowerX > 0:
-                    self.rect.move_ip(-10, 0)
+                    self.rect.move_ip(-10*4, 0)
                 if res == 3 and upperX < self.screen_width:
-                    self.rect.move_ip(10, 0)
+                    self.rect.move_ip(10*4, 0)
                 if res == 4 and self.cooldown == 15:
                     # Reset attack cooldown
                     self.cooldown = 0
 
                     # Create attack animation
-                    circle = Circle((0, 255, 0), self.rect.center, 40, 2, 2)
+                    circle = Circle((0, 255, 0), self.rect.center, 40*4, 2*4, 2)
                     self.all_sprites.add(circle)
                     self.circles.add(circle)
 
@@ -54,30 +54,30 @@ class Player1(pygame.sprite.Sprite):
                     other_player_pos = player.rect.center
                     x_diff = abs(player_pos[0] - other_player_pos[0])
                     y_diff = abs(player_pos[1] - other_player_pos[1])
-                    if x_diff < 50 and y_diff < 50:
+                    if x_diff < 50*4 and y_diff < 50*4:
                         player.health -= 1
-                        player.surf = pygame.transform.scale(self.jeff_sad, (25, 25))
+                        player.surf = pygame.transform.scale(self.jeff_sad, (25*4, 25*4))
 
         else:
             if pressed_keys[K_w] and upperY > 0:
-                self.rect.move_ip(0, -10)
+                self.rect.move_ip(0, -10*4)
             if pressed_keys[K_s] and lowerY < self.screen_height:
-                self.rect.move_ip(0, 10)
+                self.rect.move_ip(0, 10*4)
             if pressed_keys[K_a] and lowerX > 0:
-                self.rect.move_ip(-10, 0)
+                self.rect.move_ip(-10*4, 0)
             if pressed_keys[K_d] and upperX < self.screen_width:
-                self.rect.move_ip(10, 0)
+                self.rect.move_ip(10*4, 0)
             if pressed_keys[K_SPACE] and self.cooldown == 15:
                 player_pos = self.rect.center
-                circle = Circle((0, 255, 0), self.rect.center, 40, 2, 2)
+                circle = Circle((0, 255, 0), self.rect.center, 40*4, 2*4, 2)
                 self.all_sprites.add(circle)
                 self.circles.add(circle)
                 other_player_pos = player.rect.center
                 x_diff = abs(player_pos[0] - other_player_pos[0])
                 y_diff = abs(player_pos[1] - other_player_pos[1])
-                if x_diff < 50 and y_diff < 50:
+                if x_diff < 50*4 and y_diff < 50*4:
                     player.health -= 1
-                    player.surf = pygame.transform.scale(self.jeff_sad, (25, 25))
+                    player.surf = pygame.transform.scale(self.jeff_sad, (25*4, 25*4))
                 self.cooldown = 0
 
         if self.cooldown < 15:
@@ -92,13 +92,13 @@ class Player2(pygame.sprite.Sprite):
         self.is_cpu = is_cpu
         self.circles = circles
         self.all_sprites = all_sprites
-        jeff = pygame.image.load("jeff.PNG")
-        self.elon_sad = pygame.image.load("elon_sad.PNG")
-        self.surf = pygame.transform.scale(jeff, (25, 25))
+        jeff = pygame.image.load("RL-Game/jeff.PNG")
+        self.elon_sad = pygame.image.load("RL-Game/elon_sad.PNG")
+        self.surf = pygame.transform.scale(jeff, (25*4, 25*4))
         self.cooldown = 15
         self.health = 10
         self.rect = self.surf.get_rect()
-        self.rect.move_ip(screen_width-25, 0)
+        self.rect.move_ip(screen_width-(25*4), 0)
 
     def update(self, pressed_keys, player, features=None):
         upperY = self.rect.top
@@ -112,51 +112,51 @@ class Player2(pygame.sprite.Sprite):
                 res = np.argmax(res)
 
                 if res == 0 and upperY > 0:
-                    self.rect.move_ip(0, -10)
+                    self.rect.move_ip(0, -10*4)
                 if res == 1 and lowerY < self.screen_height:
-                    self.rect.move_ip(0, 10)
+                    self.rect.move_ip(0, 10*4)
                 if res == 2 and upperX < self.screen_width:
-                    self.rect.move_ip(10, 0)
+                    self.rect.move_ip(10*4, 0)
                 if res == 3 and lowerX > 0:
-                    self.rect.move_ip(-10, 0)
+                    self.rect.move_ip(-10*4, 0)
                 if res == 4 and self.cooldown == 15:
                     self.cooldown = 0
-                    circle = Circle((255, 0, 0), self.rect.center, 40, 2, 2)
+                    circle = Circle((255, 0, 0), self.rect.center, 40*4, 2*4, 2)
                     self.all_sprites.add(circle)
                     self.circles.add(circle)
                     player_pos = self.rect.center
                     other_player_pos = player.rect.center
                     x_diff = abs(player_pos[0] - other_player_pos[0])
                     y_diff = abs(player_pos[1] - other_player_pos[1])
-                    if x_diff < 50 and y_diff < 50:
+                    if x_diff < 50*4 and y_diff < 50*4:
                         player.health -= 1
-                        player.surf = pygame.transform.scale(self.elon_sad, (25, 25))
+                        player.surf = pygame.transform.scale(self.elon_sad, (25*4, 25*4))
 
         else:
             # action = random.choice([0, 1, 2, 3, 4, 5])
             action = 4
             #if pressed_keys[K_UP] and upperY > 0:
             if action == 0 and upperY > 0:
-                self.rect.move_ip(0, -10)
+                self.rect.move_ip(0, -10*4)
             #if pressed_keys[K_DOWN] and lowerY < self.screen_height:
             elif action == 1 and lowerY < self.screen_height:
-                self.rect.move_ip(0, 10)
+                self.rect.move_ip(0, 10*4)
             #if pressed_keys[K_RIGHT] and upperX < self.screen_width:
             elif action == 2 and upperX < self.screen_width:
-                self.rect.move_ip(10, 0)
+                self.rect.move_ip(10*4, 0)
             #if pressed_keys[K_LEFT] and lowerX > 0:
             elif action == 3 and lowerX > 0:
-                self.rect.move_ip(-10, 0)
+                self.rect.move_ip(-10*4, 0)
             #if pressed_keys[K_l] and self.cooldown == 15:
             elif action == 4 and self.cooldown == 15:
-                circle = Circle((255,0,0), self.rect.center, 40, 2, 2)
+                circle = Circle((255,0,0), self.rect.center, 40*4, 2*4, 2)
                 self.all_sprites.add(circle)
                 self.circles.add(circle)
                 player_pos = self.rect.center
                 other_player_pos = player.rect.center
                 x_diff = abs(player_pos[0] - other_player_pos[0])
                 y_diff = abs(player_pos[1] - other_player_pos[1])
-                if x_diff < 50 and y_diff < 50:
+                if x_diff < 50*4 and y_diff < 50*4:
                     player.surf.fill((255,255,255))
                     player.health -= 1
                 self.cooldown = 0
@@ -179,13 +179,13 @@ class Circle(pygame.sprite.Sprite):
 
 class Melee():
     def __init__(self, models, is_cpu, dt):
-        self.screen_width = 250
-        self.screen_height = 150
+        self.screen_width = 250*4
+        self.screen_height = 150*4
         self.is_game_over = False
         self.dt = dt
         self.injured_time = 8
-        self.elon = pygame.image.load("elon.PNG")
-        self.jeff = pygame.image.load("jeff.PNG")
+        self.elon = pygame.image.load("RL-Game/elon.PNG")
+        self.jeff = pygame.image.load("RL-Game/jeff.PNG")
 
         # Create the screen object
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -210,7 +210,7 @@ class Melee():
         other_player_pos = self.player2.rect.center
         x_diff = abs(player_pos[0] - other_player_pos[0])
         y_diff = abs(player_pos[1] - other_player_pos[1])
-        if x_diff < 50 and y_diff < 50:
+        if x_diff < 50*4 and y_diff < 50*4:
             return 1
         return 0
 
@@ -267,9 +267,9 @@ class Melee():
 
         # Change the sprite image if injured
         if self.player1.cooldown > self.injured_time:
-            self.player2.surf = pygame.transform.scale(self.jeff, (25, 25))
+            self.player2.surf = pygame.transform.scale(self.jeff, (25*4, 25*4))
         if self.player2.cooldown > self.injured_time:
-            self.player1.surf = pygame.transform.scale(self.elon, (25, 25))
+            self.player1.surf = pygame.transform.scale(self.elon, (25*4, 25*4))
 
         # Draw all sprites
         for entity in self.all_sprites:
@@ -305,7 +305,7 @@ if __name__ == "__main__":
     model1 = keras.models.load_model('melee_weights_gen_3')
     model2 = keras.models.load_model('melee_weights_gen_4')
     models = [model1, model2]
-    is_cpu = [True, True]
+    is_cpu = [False, True]
     dt = 20
     game = Melee(models, is_cpu, dt)
 
